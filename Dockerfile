@@ -2,14 +2,11 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Copiar arquivos do projeto
-COPY package*.json ./
-
-# Instalar dependências
-RUN npm install
-
-# Copiar o resto do código
+# Copiar TUDO primeiro (não só package.json)
 COPY . .
+
+# Instalar dependências (agora o lib/postinstall.js já existe)
+RUN npm install
 
 # Fazer o build
 RUN npm run build
