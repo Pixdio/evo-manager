@@ -1,12 +1,14 @@
-# Use a imagem oficial do Node.js 20 como base
 FROM node:20-slim
 
 WORKDIR /usr/src/app
 
-RUN npm install -g vite
+# AQUI ESTÁ A CORREÇÃO:
+# Instalamos explicitamente o fs-extra e o evolution-manager para garantir que existem
+RUN npm install -g vite fs-extra evolution-manager
 
 RUN ln -s /usr/local/bin/node /usr/bin/node
 
-ENTRYPOINT ["npx", "evolution-manager", "server", "start"] 
+# Executamos diretamente o comando instalado (sem npx para evitar downloads repetidos)
+CMD ["evolution-manager", "start"]
 
 EXPOSE 9615
