@@ -5,16 +5,19 @@ WORKDIR /app
 # Copiar tudo
 COPY . .
 
-# Instalar dependências
+# Instalar dependências incluindo Vite
 RUN npm install
 
-# Fazer o build
+# Fazer o build (isso cria a pasta dist)
 RUN npm run build
 
-# Instalar globalmente após o build
-RUN npm install -g .
+# Instalar CLI globalmente
+RUN npm install -g . --force
 
-# Comando de inicialização com opções
-CMD ["sh", "-c", "evolution-manager server start || tail -f /dev/null"]
+# Verificar instalação
+RUN evolution-manager --version || echo "Installation check failed"
+
+# Comando de inicialização
+CMD ["evolution-manager", "server", "start"]
 
 EXPOSE 9615
