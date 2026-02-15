@@ -1,14 +1,18 @@
+# Começamos com uma imagem limpa do Node 20 (leve e oficial)
 FROM node:20-slim
 
-WORKDIR /usr/src/app
+# Definimos a pasta de trabalho
+WORKDIR /app
 
-# AQUI ESTÁ A CORREÇÃO:
-# Instalamos explicitamente o fs-extra e o evolution-manager para garantir que existem
-RUN npm install -g vite fs-extra evolution-manager
+# Instalação MANUAL e FORÇADA das dependências que estão faltando
+# Aqui instalamos o manager e o fs-extra explicitamente
+RUN npm install -g evolution-manager fs-extra
 
+# Link simbólico para garantir compatibilidade
 RUN ln -s /usr/local/bin/node /usr/bin/node
 
-# Executamos diretamente o comando instalado (sem npx para evitar downloads repetidos)
+# Comando de inicialização correto para a versão 0.4.13+
 CMD ["evolution-manager", "server", "start"]
 
+# Expõe a porta
 EXPOSE 9615
